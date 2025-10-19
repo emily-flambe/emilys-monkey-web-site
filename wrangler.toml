@@ -1,0 +1,21 @@
+name = "emilys-monkey-web-site"
+main = "src/index.ts"
+compatibility_date = "2023-10-30"
+
+[env.production]
+name = "emilys-monkey-web-site"
+
+[env.development]
+name = "emilys-monkey-web-site-dev"
+
+# D1 Database bindings
+[[d1_databases]]
+binding = "DB"
+database_name = "monkey-web-site-db"
+database_id = "placeholder-database-id"
+
+# For local development, Wrangler will use a local SQLite database
+[env.development.d1_databases]
+binding = "DB"
+database_name = "monkey-web-site-db-local"
+preview_database_id = "placeholder-preview-database-id"

@@ -1,0 +1,27 @@
+{
+  "name": "emilys-monkey-web-site",
+  "version": "1.0.0",
+  "description": "This thing got me through grad school back in 2014 lmfao. Resurrected for the modern era",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "test": "echo \"No tests specified yet\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251011.0",
+    "@types/node": "^24.8.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.43.0"
+  },
+  "dependencies": {
+    "hono": "^4.10.1"
+  }
+}
