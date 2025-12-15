@@ -25,9 +25,6 @@ const elements = {
   rightImg: document.getElementById('right-img'),
   progressFill: document.getElementById('progress-fill'),
   progressText: document.getElementById('progress-text'),
-  scoreValue: document.getElementById('score-value'),
-  scoreValueText: document.getElementById('score-value-text'),
-  leaderboard: document.getElementById('leaderboard'),
   faceRankings: document.getElementById('face-rankings'),
   playAgainBtn: document.getElementById('play-again-btn'),
 };
@@ -54,11 +51,6 @@ async function recordResponse(trialData) {
 
 async function completeSession(sessionId) {
   const res = await fetch(`${API_BASE}/sessions/${sessionId}/complete`, { method: 'POST' });
-  return res.json();
-}
-
-async function getLeaderboard() {
-  const res = await fetch(`${API_BASE}/leaderboard`);
   return res.json();
 }
 
@@ -110,43 +102,11 @@ async function handleFaceClick(side) {
 async function finishExperiment() {
   showScreen('results');
 
-  // Complete session and get score
-  const result = await completeSession(sessionId);
-  const score = result.agreement_score;
+  // Complete session
+  await completeSession(sessionId);
 
-  elements.scoreValue.textContent = score;
-  elements.scoreValueText.textContent = score;
-
-  // Load leaderboard and face rankings
-  await Promise.all([loadLeaderboard(), loadFaceRankings()]);
-}
-
-async function loadLeaderboard() {
-  try {
-    const data = await getLeaderboard();
-    const entries = data.entries || [];
-
-    if (entries.length === 0) {
-      elements.leaderboard.innerHTML = '<div class="loading">No entries yet. You could be first!</div>';
-      return;
-    }
-
-    let html = '';
-    entries.forEach((entry, index) => {
-      const isMe = entry.id === sessionId;
-      html += `
-        <div class="leaderboard-entry ${isMe ? 'highlight' : ''}">
-          <span class="leaderboard-rank">#${index + 1}</span>
-          <span class="leaderboard-id">${entry.id}${isMe ? ' (you)' : ''}</span>
-          <span class="leaderboard-score">${entry.agreement_score}%</span>
-        </div>
-      `;
-    });
-
-    elements.leaderboard.innerHTML = html;
-  } catch (err) {
-    elements.leaderboard.innerHTML = '<div class="loading">Failed to load leaderboard</div>';
-  }
+  // Load face rankings
+  await loadFaceRankings();
 }
 
 async function loadFaceRankings() {
@@ -154,18 +114,20 @@ async function loadFaceRankings() {
     const data = await getFaceStats();
     const faces = data.faces || [];
 
-    if (faces.length === 0) {
-      elements.faceRankings.innerHTML = '<div class="loading">No data yet</div>';
+    if (faces.length === 0 || faces.every(f => f.times_shown === 0)) {
+      elements.faceRankings.innerHTML = '<div class="loading">No data yet - you\'re the first!</div>';
       return;
     }
 
     let html = '';
-    faces.slice(0, 20).forEach((face, index) => {
+    faces.forEach((face, index) => {
+      const label = index === 0 ? 'Nicest' : index === faces.length - 1 ? 'Meanest' : '';
       html += `
         <div class="face-rank-item">
-          <img src="/images/${face.face_id}.png" alt="${face.face_id}">
-          <div class="rank">#${index + 1}</div>
-          <div class="pct">${face.niceness_pct}%</div>
+          <span class="rank">#${index + 1}</span>
+          <img src="/images/${face.face_id}.png" alt="Monkey ${index + 1}">
+          <span class="pct">${face.niceness_pct}%</span>
+          ${label ? `<span class="label">${label}</span>` : ''}
         </div>
       `;
     });
@@ -175,18 +137,6 @@ async function loadFaceRankings() {
     elements.faceRankings.innerHTML = '<div class="loading">Failed to load rankings</div>';
   }
 }
-
-// Tab Switching
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-    btn.classList.add('active');
-    const tabId = btn.dataset.tab + '-tab';
-    document.getElementById(tabId).classList.add('active');
-  });
-});
 
 // Start Experiment
 async function startExperiment() {
