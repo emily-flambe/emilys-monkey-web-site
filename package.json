@@ -1,0 +1,23 @@
+{
+  "name": "emilys-monkey-web-site",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "npm run build:frontend && wrangler dev",
+    "deploy": "npm run build:frontend && wrangler deploy",
+    "build": "vite build",
+    "build:frontend": "vite build",
+    "db:init": "wrangler d1 execute monkey-db --local --file=./src/db/schema.sql",
+    "db:init:remote": "wrangler d1 execute monkey-db --remote --file=./src/db/schema.sql"
+  },
+  "dependencies": {
+    "hono": "^4.11.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251213.0",
+    "typescript": "^5.5.2",
+    "vite": "^7.3.0",
+    "wrangler": "^4.54.0"
+  }
+}

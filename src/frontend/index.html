@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Which Monkey is Nicer?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Welcome Screen -->
+    <section id="welcome" class="screen active">
+      <div class="welcome-content">
+        <h1>Which Monkey<br>is <em>Nicer</em>?</h1>
+        <p class="subtitle">A psychological experiment from 2014, resurrected for the modern era</p>
+        <div class="intro-text">
+          <p>You'll see <strong>23 pairs</strong> of rhesus macaque faces.</p>
+          <p>For each pair, click the one that looks <em>nicer</em> to you.</p>
+          <p>Trust your gut. There are no wrong answers.</p>
+        </div>
+        <button id="start-btn" class="primary-btn">
+          Let's Go
+          <span class="btn-arrow">&rarr;</span>
+        </button>
+        <p class="credit">Originally created by Emily Cogsdill in 2014 lol</p>
+      </div>
+    </section>
+
+    <!-- Trial Screen -->
+    <section id="trial" class="screen">
+      <div class="trial-header">
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+          <span id="progress-text" class="progress-text">1 / 23</span>
+        </div>
+        <h2 class="trial-question">Which monkey looks <em>nicer</em>?</h2>
+      </div>
+      <div class="faces-container">
+        <button id="left-face" class="face-btn">
+          <img id="left-img" src="" alt="Monkey face">
+          <span class="face-label">Click to choose</span>
+        </button>
+        <div class="vs-divider">
+          <span>vs</span>
+        </div>
+        <button id="right-face" class="face-btn">
+          <img id="right-img" src="" alt="Monkey face">
+          <span class="face-label">Click to choose</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Results Screen -->
+    <section id="results" class="screen">
+      <div class="results-content">
+        <h1>You're Done!</h1>
+        <div id="score-display" class="score-display">
+          <div class="score-circle">
+            <span id="score-value" class="score-value">--</span>
+            <span class="score-label">% agreement</span>
+          </div>
+          <p class="score-desc">You agreed with the crowd on <span id="score-value-text">--</span>% of your picks</p>
+        </div>
+
+        <div class="results-tabs">
+          <button class="tab-btn active" data-tab="leaderboard">Leaderboard</button>
+          <button class="tab-btn" data-tab="faces">Nicest Monkeys</button>
+        </div>
+
+        <div id="leaderboard-tab" class="tab-content active">
+          <div id="leaderboard" class="leaderboard">
+            <div class="loading">Loading leaderboard...</div>
+          </div>
+        </div>
+
+        <div id="faces-tab" class="tab-content">
+          <div id="face-rankings" class="face-rankings">
+            <div class="loading">Loading rankings...</div>
+          </div>
+        </div>
+
+        <button id="play-again-btn" class="secondary-btn">Play Again</button>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

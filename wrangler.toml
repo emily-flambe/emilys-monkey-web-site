@@ -1,0 +1,19 @@
+name = "emilys-monkey-web-site"
+main = "src/index.ts"
+compatibility_date = "2025-12-13"
+
+[[routes]]
+pattern = "monkey.emilycogsdill.com"
+custom_domain = true
+
+[assets]
+directory = "./dist"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "monkey-db"
+database_id = "7553eddf-a49e-4aaf-9f1c-281c5775adcd"
+
+[dev]
+port = 8787
