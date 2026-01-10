@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(wrangler d1 execute*--remote*)",
+      "Bash(npm run db:init:remote*)",
+      "Bash(wrangler deploy*)",
+      "Bash(npm run deploy*)",
+      "Bash(*--force*)",
+      "Edit(.env*)",
+      "Edit(.dev.vars*)",
+      "Edit(wrangler.toml:*database_id*)",
+      "Write(.env*)",
+      "Write(.dev.vars*)",
+      "Read(.env*)",
+      "Read(.dev.vars*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx tsc --noEmit 2>&1 | head -20 || true"
+          }
+        ]
+      }
+    ]
+  }
+}
